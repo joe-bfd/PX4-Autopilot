@@ -151,7 +151,6 @@ protected:
 	StickAccelerationXY _stick_acceleration_xy;
 	StickYaw _stick_yaw;
 	matrix::Vector3f _land_position;
-	float _land_heading;
 	WaypointType _type_previous{WaypointType::idle}; /**< Previous type of current target triplet. */
 	bool _is_emergency_braking_active{false};
 	bool _want_takeoff{false};

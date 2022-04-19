@@ -247,7 +247,6 @@ void FlightTaskAuto::_prepareLandSetpoints()
 	if (_type_previous != WaypointType::land) {
 		// initialize xy-position and yaw to waypoint such that home is reached exactly without user input
 		_land_position = Vector3f(_target(0), _target(1), NAN);
-		_land_heading = _yaw_setpoint;
 		_stick_acceleration_xy.resetPosition(Vector2f(_target(0), _target(1)));
 	}
 
@@ -260,11 +259,11 @@ void FlightTaskAuto::_prepareLandSetpoints()
 		const bool weather_vane_active = (_ext_yaw_handler != nullptr) && _ext_yaw_handler->is_active();
 
 		if (!weather_vane_active || fabsf(_sticks.getPositionExpo()(3)) > FLT_EPSILON) {
-			_stick_yaw.generateYawSetpoint(_yawspeed_setpoint, _land_heading,
+			_stick_yaw.generateYawSetpoint(_yawspeed_setpoint, _yaw_setpoint,
 						       _sticks.getPositionExpo()(3) * math::radians(_param_mpc_man_y_max.get()), _yaw, _is_yaw_good_for_control, _deltatime);
 		}
 
-		_stick_acceleration_xy.generateSetpoints(_sticks.getPositionExpo().slice<2, 1>(0, 0), _yaw, _land_heading, _position,
+		_stick_acceleration_xy.generateSetpoints(_sticks.getPositionExpo().slice<2, 1>(0, 0), _yaw, _yaw_setpoint, _position,
 				_velocity_setpoint_feedback.xy(), _deltatime);
 		_stick_acceleration_xy.getSetpoints(_land_position, _velocity_setpoint, _acceleration_setpoint);
 
@@ -281,7 +280,6 @@ void FlightTaskAuto::_prepareLandSetpoints()
 	}
 
 	_position_setpoint = _land_position; // The last element of the land position has to stay NAN
-	_yaw_setpoint = _land_heading;
 	_velocity_setpoint(2) = vertical_speed;
 	_gear.landing_gear = landing_gear_s::GEAR_DOWN;
 }
