@@ -29,10 +29,12 @@
     ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
     POSSIBILITY OF SUCH DAMAGE.
 
-File: pcoef_tuning.py
+File: baro_static_pressure_compensation_tuning.py
 Author: Mathieu Bresciani <mathieu@auterion.com>
 License: BSD 3-Clause
 Description:
+    Tune the pressure coefficients used to compensate for
+    dynamic pressure disturbances on the barometer
     NOTE: this script currently assumes no wind.
 """
 
